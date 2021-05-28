@@ -94,6 +94,19 @@
                 newUser: false,
                 editUser: false,
                 deleteUser: false,
+                paisajes: []
+            },
+            mounted: function() {
+                this.showPaisajes();
+            },
+            methods: {
+                showPaisajes: function() {
+                    axios.get("http://localhost:8888/crud-phpvue/api.php?action=read")
+                        .then(function(response) {
+                            console.log(response);
+                            app.paisajes = response.data.paisajes;
+                        });
+                }
             }
         });  
     </script>

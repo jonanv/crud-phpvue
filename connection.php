@@ -7,7 +7,7 @@
 
         public $connection;
         public function __construct() {
-            $this->connection = new mysqli($this->host, $this->user, $this->pass, $this->db)
+            $this->connection = new mysqli($this->host, $this->user, $this->pass, $this->db) 
             or die(mysql_error());
             $this->connection->set_charset("utf8");
         }
