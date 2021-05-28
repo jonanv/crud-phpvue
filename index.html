@@ -21,13 +21,15 @@
                 <tr>
                     <th>ID</th>
                     <th>NOMBRE</th>
+                    <th>FOTO</th>
                     <th>ACCIÓN</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
+                <tr v-for="paisaje in paisajes">
+                    <td>{{ paisaje.id }}</td>
+                    <td>{{ paisaje.nombre }}</td>
+                    <td><img :src="'img/'+paisaje.foto" alt="" width="100"></td>
                     <td>
                         <button type="button" @click="editUser=true">EDITAR</button>
                         <button type="button" @click="deleteUser=true">ELIMINAR</button>
