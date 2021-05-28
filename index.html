@@ -5,8 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD con VUE.JS + PHP + MYSQL</title>
+
+    
 </head>
 <body>
     
+    <div id="app">
+        <p>Hola {{ message }}</p>
+    </div>
+
+    <!-- Vue -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.21/vue.min.js"></script>
+    <!-- Axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "Manizales del alma"
+            }
+        });  
+    </script>
 </body>
 </html>
