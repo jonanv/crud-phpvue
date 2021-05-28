@@ -46,7 +46,11 @@
                     <h1>NUEVO</h1>
                 </div>
                 <div class="content">
-                    contenidos
+                    <input type="text" name="nombre" id="nombre"><br>
+                    <input type="text" name="descripcion" id="descripcion"><br>
+                    <img v-if="url" :src="url" alt="" width="100"><br>
+                    <input type="file" name="foto" ref="foto" id="foto" v-on:change="showImage()"><br>
+                    <button @click="editUser=false;createPaisajes()">CREAR</button>
                 </div>
             </div>
         </div>
@@ -96,7 +100,8 @@
                 newUser: false,
                 editUser: false,
                 deleteUser: false,
-                paisajes: []
+                paisajes: [],
+                url: null
             },
             mounted: function() {
                 this.showPaisajes();
@@ -107,6 +112,22 @@
                         .then(function(response) {
                             console.log(response);
                             app.paisajes = response.data.paisajes;
+                        });
+                },
+                showImage: function() {
+                    var _this = this;
+                    _this.file = _this.$refs.foto.files[0];
+                    _this.url = URL.createObjectURL(_this.file);
+                },
+                createPaisajes: function() {
+                    let formdata = new FormData();
+                    formdata.append("nombre", document.getElementById("nombre").value);
+                    formdata.append("descripcion", document.getElementById("descripcion").value);
+                    formdata.append("foto", document.getElementById("foto").files[0]);
+
+                    axios.post("http://localhost:8888/crud-phpvue/api.php?action=create", formdata)
+                        .then(function(response) {
+                            console.log(response);
                         });
                 }
             }
