@@ -67,7 +67,15 @@
                 break;
 
             case 'delete':
-                echo "eliminar";
+                $id = $_POST['id'];
+                $u = $user->delete("paisajes", "id=" . $id);
+
+                if ($u) {
+                    $response['message'] = "Eliminación exitosa";
+                } else {
+                    $response['message'] = "Aun no hay registros";
+                    $response['error'] = true;
+                }
                 break;
 
             default:

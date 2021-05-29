@@ -14,6 +14,7 @@
 <body>
     
     <div id="app">
+        <p class="message" v-if="message">{{ message }}</p>
         <button @click="createUser=true">NUEVO</button>
 
         <table>
@@ -32,7 +33,7 @@
                     <td><img :src="'img/'+paisaje.foto" alt="" width="100"></td>
                     <td>
                         <button type="button" @click="updateUser=true;selectPaisaje(paisaje)">EDITAR</button>
-                        <button type="button" @click="removeUser=true">ELIMINAR</button>
+                        <button type="button" @click="deleteUser=true;selectPaisaje(paisaje)">ELIMINAR</button>
                     </td>
                 </tr>
             </tbody>
@@ -79,14 +80,17 @@
         </div>
 
         <!-- Eliminar usuario -->
-        <div class="container" v-if="removeUser">
+        <div class="container" v-if="deleteUser">
             <div class="modal">
                 <div class="header">
-                    <button class="close" @click="removeUser=false">X</button>
+                    <button class="close" @click="deleteUser=false">X</button>
                     <h1>ELIMINAR</h1>
                 </div>
                 <div class="content">
-                    contenidos
+                    <p>{{ selected.nombre }}</p>
+                    <input type="hidden" id="id" name="id" v-model="selected.id">
+                    <button @click="deleteUser=false;deletePaisajes()">SI</button>
+                    <button @click="deleteUser=false;">NO</button>
                 </div>
             </div>
         </div>
@@ -109,10 +113,11 @@
             data: {
                 createUser: false,
                 updateUser: false,
-                removeUser: false,
+                deleteUser: false,
                 paisajes: [],
                 selected: {},
                 url: null,
+                message: ""
             },
             mounted: function() {
                 this.showPaisajes();
@@ -139,10 +144,11 @@
                     axios.post("http://localhost:8888/crud-phpvue/api.php?action=create", formdata)
                         .then(function(response) {
                             console.log(response);
+                            app.message = response.data.message;
+                            app.showPaisajes();
                         });
                 },
                 updatePaisajes: function() {
-                    console.log('update')
                     let formdata = new FormData();
                     formdata.append("id", document.getElementById("id").value);
                     formdata.append("nombre", document.getElementById("nombre").value);
@@ -152,6 +158,19 @@
                     axios.post("http://localhost:8888/crud-phpvue/api.php?action=update", formdata)
                         .then(function(response) {
                             console.log(response);
+                            app.message = response.data.message;
+                            app.showPaisajes();
+                        });
+                },
+                deletePaisajes: function() {
+                    let formdata = new FormData();
+                    formdata.append("id", document.getElementById("id").value);
+
+                    axios.post("http://localhost:8888/crud-phpvue/api.php?action=delete", formdata)
+                        .then(function(response) {
+                            console.log(response);
+                            app.message = response.data.message;
+                            app.showPaisajes();
                         });
                 },
                 selectPaisaje: function(paisaje) {
