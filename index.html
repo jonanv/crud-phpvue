@@ -14,7 +14,7 @@
 <body>
     
     <div id="app">
-        <button @click="newUser=true">NUEVO</button>
+        <button @click="createUser=true">NUEVO</button>
 
         <table>
             <thead>
@@ -31,18 +31,18 @@
                     <td>{{ paisaje.nombre }}</td>
                     <td><img :src="'img/'+paisaje.foto" alt="" width="100"></td>
                     <td>
-                        <button type="button" @click="editUser=true">EDITAR</button>
-                        <button type="button" @click="deleteUser=true">ELIMINAR</button>
+                        <button type="button" @click="updateUser=true;selectPaisaje(paisaje)">EDITAR</button>
+                        <button type="button" @click="removeUser=true">ELIMINAR</button>
                     </td>
                 </tr>
             </tbody>
         </table>
 
         <!-- Crear usuario -->
-        <div class="container" v-if="newUser">
+        <div class="container" v-if="createUser">
             <div class="modal">
                 <div class="header">
-                    <button class="close" @click="newUser=false">X</button>
+                    <button class="close" @click="createUser=false">X</button>
                     <h1>NUEVO</h1>
                 </div>
                 <div class="content">
@@ -50,29 +50,39 @@
                     <input type="text" name="descripcion" id="descripcion"><br>
                     <img v-if="url" :src="url" alt="" width="100"><br>
                     <input type="file" name="foto" ref="foto" id="foto" v-on:change="showImage()"><br>
-                    <button @click="editUser=false;createPaisajes()">CREAR</button>
+                    <button @click="createUser=false;createPaisajes()">CREAR</button>
                 </div>
             </div>
         </div>
 
         <!-- Editar usuario -->
-        <div class="container" v-if="editUser">
+        <div class="container" v-if="updateUser">
             <div class="modal">
                 <div class="header">
-                    <button class="close" @click="editUser=false">X</button>
+                    <button class="close" @click="updateUser=false">X</button>
                     <h1>EDITAR</h1>
                 </div>
                 <div class="content">
-                    contenidos
+                    <input type="text" name="enombre" id="enombre" v-model="selected.nombre"><br>
+                    <input type="text" name="edescripcion" id="edescripcion" v-model="selected.descripcion"><br>
+                    <div v-if="eurl">
+                        <img :src="eurl" alt="" width="100"><br>
+                    </div>
+                    <div v-else="eurl">
+                        <img :src="'img/'+selected.foto" alt="" width="100"><br>
+                    </div>
+                    <input type="hidden" id="eid" name="eid" v-model="selected.id">
+                    <input type="file" name="efoto" ref="efoto" id="efoto" v-on:change="eshowImage()"><br>
+                    <button @click="updateUser=false;updatePaisajes()">EDITAR</button>
                 </div>
             </div>
         </div>
 
         <!-- Eliminar usuario -->
-        <div class="container" v-if="deleteUser">
+        <div class="container" v-if="removeUser">
             <div class="modal">
                 <div class="header">
-                    <button class="close" @click="deleteUser=false">X</button>
+                    <button class="close" @click="removeUser=false">X</button>
                     <h1>ELIMINAR</h1>
                 </div>
                 <div class="content">
@@ -97,27 +107,34 @@
         var app = new Vue({
             el: "#app",
             data: {
-                newUser: false,
-                editUser: false,
-                deleteUser: false,
+                createUser: false,
+                updateUser: false,
+                removeUser: false,
                 paisajes: [],
-                url: null
+                selected: {},
+                url: null,
+                eurl: null
             },
             mounted: function() {
                 this.showPaisajes();
             },
             methods: {
+                showImage: function() {
+                    var _this = this;
+                    _this.file = _this.$refs.foto.files[0];
+                    _this.url = URL.createObjectURL(_this.file);
+                },
+                eshowImage: function() {
+                    var _this = this;
+                    _this.file = _this.$refs.efoto.files[0];
+                    _this.url = URL.createObjectURL(_this.file);
+                },
                 showPaisajes: function() {
                     axios.get("http://localhost:8888/crud-phpvue/api.php?action=read")
                         .then(function(response) {
                             console.log(response);
                             app.paisajes = response.data.paisajes;
                         });
-                },
-                showImage: function() {
-                    var _this = this;
-                    _this.file = _this.$refs.foto.files[0];
-                    _this.url = URL.createObjectURL(_this.file);
                 },
                 createPaisajes: function() {
                     let formdata = new FormData();
@@ -129,6 +146,22 @@
                         .then(function(response) {
                             console.log(response);
                         });
+                },
+                updatePaisajes: function() {
+                    console.log('update')
+                    let formdata = new FormData();
+                    formdata.append("eid", document.getElementById("eid").value);
+                    formdata.append("enombre", document.getElementById("enombre").value);
+                    formdata.append("edescripcion", document.getElementById("edescripcion").value);
+                    formdata.append("efoto", document.getElementById("efoto").files[0]);
+
+                    axios.post("http://localhost:8888/crud-phpvue/api.php?action=update", formdata)
+                        .then(function(response) {
+                            console.log(response);
+                        });
+                },
+                selectPaisaje: function(paisaje) {
+                    app.selected = paisaje;
                 }
             }
         });  
