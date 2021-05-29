@@ -63,16 +63,16 @@
                     <h1>EDITAR</h1>
                 </div>
                 <div class="content">
-                    <input type="text" name="enombre" id="enombre" v-model="selected.nombre"><br>
-                    <input type="text" name="edescripcion" id="edescripcion" v-model="selected.descripcion"><br>
-                    <div v-if="eurl">
-                        <img :src="eurl" alt="" width="100"><br>
+                    <input type="text" name="nombre" id="nombre" v-model="selected.nombre"><br>
+                    <input type="text" name="descripcion" id="descripcion" v-model="selected.descripcion"><br>
+                    <div v-if="url">
+                        <img :src="url" alt="" width="100"><br>
                     </div>
-                    <div v-else="eurl">
+                    <div v-else="url">
                         <img :src="'img/'+selected.foto" alt="" width="100"><br>
                     </div>
-                    <input type="hidden" id="eid" name="eid" v-model="selected.id">
-                    <input type="file" name="efoto" ref="efoto" id="efoto" v-on:change="eshowImage()"><br>
+                    <input type="hidden" id="id" name="id" v-model="selected.id">
+                    <input type="file" name="foto" ref="foto" id="foto" v-on:change="showImage()"><br>
                     <button @click="updateUser=false;updatePaisajes()">EDITAR</button>
                 </div>
             </div>
@@ -113,7 +113,6 @@
                 paisajes: [],
                 selected: {},
                 url: null,
-                eurl: null
             },
             mounted: function() {
                 this.showPaisajes();
@@ -122,11 +121,6 @@
                 showImage: function() {
                     var _this = this;
                     _this.file = _this.$refs.foto.files[0];
-                    _this.url = URL.createObjectURL(_this.file);
-                },
-                eshowImage: function() {
-                    var _this = this;
-                    _this.file = _this.$refs.efoto.files[0];
                     _this.url = URL.createObjectURL(_this.file);
                 },
                 showPaisajes: function() {
@@ -150,10 +144,10 @@
                 updatePaisajes: function() {
                     console.log('update')
                     let formdata = new FormData();
-                    formdata.append("eid", document.getElementById("eid").value);
-                    formdata.append("enombre", document.getElementById("enombre").value);
-                    formdata.append("edescripcion", document.getElementById("edescripcion").value);
-                    formdata.append("efoto", document.getElementById("efoto").files[0]);
+                    formdata.append("id", document.getElementById("id").value);
+                    formdata.append("nombre", document.getElementById("nombre").value);
+                    formdata.append("descripcion", document.getElementById("descripcion").value);
+                    formdata.append("foto", document.getElementById("foto").files[0]);
 
                     axios.post("http://localhost:8888/crud-phpvue/api.php?action=update", formdata)
                         .then(function(response) {

@@ -31,7 +31,7 @@
 
                 $data = "'" . $nombre . "','" . $descripcion . "','" . $foto . "'";
                 $u = $user->create("paisajes", $data);
-                
+
                 if ($u) {
                     $response['paisajes'] = $u;
                     $response['message'] = "inserción exitosa";
@@ -42,17 +42,17 @@
                 break;
                 
             case 'update':
-                $id = $_POST['eid'];
-                $nombre = $_POST['enombre'];
-                $descripcion = $_POST['edescripcion'];
+                $id = $_POST['id'];
+                $nombre = $_POST['nombre'];
+                $descripcion = $_POST['descripcion'];
                 $foto = "";
 
-                if(isset($_FILES['efoto']['name'])) {
-                    $foto = $_FILES['efoto']['name'];
+                if(isset($_FILES['foto']['name'])) {
+                    $foto = $_FILES['foto']['name'];
                     $target_dir = "img/";
                     $target_file = $target_dir . basename($foto);
-                    move_uploaded_file($_FILES['efoto']['tmp_name'], $target_file);
-                    $foto = ", foto='" . $_FILES['efoto']['name'] . "'";
+                    move_uploaded_file($_FILES['foto']['tmp_name'], $target_file);
+                    $foto = ", foto='" . $_FILES['foto']['name'] . "'";
                 }
 
                 $data = "nombre='" . $nombre . "', descripcion='" . $descripcion . "'" . $foto;
