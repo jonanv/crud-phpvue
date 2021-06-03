@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 29-05-2021 a las 06:01:39
+-- Tiempo de generación: 04-06-2021 a las 01:30:07
 -- Versión del servidor: 5.7.21
 -- Versión de PHP: 5.6.33
 
@@ -11,7 +11,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Base de datos: `crud-phpvue`
+-- Base de datos: `crudpaisajes-phpvue`
 --
 
 -- --------------------------------------------------------
@@ -34,9 +34,9 @@ CREATE TABLE `paisajes` (
 INSERT INTO `paisajes` (`id`, `nombre`, `descripcion`, `foto`) VALUES
 (1, 'Manizales', 'Manizales del alma', 'manizales.jpeg'),
 (4, 'prueba3', 'prueba33', 'jonanv.png'),
-(5, 'prueba2', 'prueba2', 'jonanv.png'),
-(6, 'prueba3', 'prueba3', 'jonanv.png'),
-(7, 'prueba4', 'prueba4', '');
+(16, 'prueba55', 'prueba55', 'sasuke.jpeg'),
+(17, 'rwerwer', 'fsdf', 'sasuke.jpeg'),
+(20, 'saduke', 'saduke', 'sasuke.jpeg');
 
 --
 -- Índices para tablas volcadas
@@ -56,4 +56,4 @@ ALTER TABLE `paisajes`
 -- AUTO_INCREMENT de la tabla `paisajes`
 --
 ALTER TABLE `paisajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;

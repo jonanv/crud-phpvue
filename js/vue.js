@@ -19,7 +19,7 @@ var app = new Vue({
             _this.url = URL.createObjectURL(_this.file);
         },
         showPaisajes: function() {
-            axios.get("http://localhost:8888/crud-phpvue/api.php?action=read")
+            axios.get("http://localhost:8888/crudpaisajes-phpvue/api.php?action=read")
                 .then(function(response) {
                     console.log(response);
                     // app.message = response.data.message;
@@ -32,7 +32,7 @@ var app = new Vue({
             formdata.append("descripcion", document.getElementById("descripcion").value);
             formdata.append("foto", document.getElementById("foto").files[0]);
 
-            axios.post("http://localhost:8888/crud-phpvue/api.php?action=create", formdata)
+            axios.post("http://localhost:8888/crudpaisajes-phpvue/api.php?action=create", formdata)
                 .then(function(response) {
                     console.log(response);
                     app.message = response.data.message;
@@ -48,7 +48,7 @@ var app = new Vue({
             formdata.append("descripcion", document.getElementById("descripcion").value);
             formdata.append("foto", document.getElementById("foto").files[0]);
 
-            axios.post("http://localhost:8888/crud-phpvue/api.php?action=update", formdata)
+            axios.post("http://localhost:8888/crudpaisajes-phpvue/api.php?action=update", formdata)
                 .then(function(response) {
                     console.log(response);
                     app.message = response.data.message;
@@ -61,7 +61,7 @@ var app = new Vue({
             let formdata = new FormData();
             formdata.append("id", document.getElementById("id").value);
 
-            axios.post("http://localhost:8888/crud-phpvue/api.php?action=delete", formdata)
+            axios.post("http://localhost:8888/crudpaisajes-phpvue/api.php?action=delete", formdata)
                 .then(function(response) {
                     console.log(response);
                     app.message = response.data.message;

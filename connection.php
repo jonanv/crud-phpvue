@@ -3,7 +3,7 @@
         private $host = "localhost";
         private $user = "root";
         private $pass = "admin";
-        private $db = "crud-phpvue";
+        private $db = "crudpaisajes-phpvue";
 
         public $connection;
         public function __construct() {
